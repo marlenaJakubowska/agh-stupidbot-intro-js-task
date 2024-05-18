@@ -1,0 +1,27 @@
+.card {
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-footer {
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e1e1e1;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group-field {
+    flex: 1;
+}
+
+.button-primary {
+    margin-left: 10px;
+}
