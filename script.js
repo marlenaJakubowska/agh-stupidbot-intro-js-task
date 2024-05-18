@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Mam 2137 ciekawszych rzeczy do robienia'
     ];
 
+    const forbiddenWords = ['dupa', 'podatki', 'deadline'];
+
     const hashCode = (str) => {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
@@ -26,13 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getBotResponse = (message) => {
+        if (message.startsWith('/')) {
+            switch (message) {
+                case '/version':
+                    return 'Wersja oprogramowania: v1.2.3';
+                case '/pogoda kraków':
+                    return 'W Krakowie jest 22 stopnie';
+                default:
+                    return 'Nie rozumiem tej komendy';
+            }
+        }
         const hash = Math.abs(hashCode(message));
         return botResponses[hash % botResponses.length];
     };
 
-    const addMessage = (sender, message) => {
+    const addMessage = (sender, message, color = 'black') => {
         const messageElement = document.createElement('div');
         messageElement.textContent = `${sender}: ${message}`;
+        messageElement.style.color = color;
         chatContent.appendChild(messageElement);
         chatContent.scrollTop = chatContent.scrollHeight;
     };
@@ -40,9 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendMessage = () => {
         const message = userInput.value.trim();
         if (message) {
-            addMessage('Ty', message);
-            const botMessage = getBotResponse(message);
-            addMessage('Bot', botMessage);
+            if (forbiddenWords.some(word => message.includes(word))) {
+                alert('Takie rzeczy to sobie mów do kolegi!');
+                addMessage('Bot', 'Proszę, nie używaj takich słów.', 'red');
+            } else {
+                addMessage('Ty', message);
+                setTimeout(() => {
+                    const botMessage = getBotResponse(message);
+                    addMessage('Bot', botMessage);
+                }, 1000);
+            }
             userInput.value = '';
         }
     };
