@@ -1,0 +1,1 @@
+# agh-stupidbot-intro-js-task
